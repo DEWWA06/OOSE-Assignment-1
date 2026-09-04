@@ -1,10 +1,10 @@
 package edu.curtin.app;
 
-public class SimpleTask extends Task 
+public class LeafTask extends Task 
 {
     private int effort;
 
-    public SimpleTask(String id, String description, int effort) 
+    public LeafTask(String id, String description, int effort) 
     {
         super(id, description);
         this.effort = effort;
