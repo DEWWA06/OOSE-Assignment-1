@@ -1,16 +1,21 @@
 package edu.curtin.app;
 
 import java.util.Scanner;
+import java.io.IOException;
 
 public class Menu 
 {
     private Scanner scanner;
     private Configuration configuration;
+    private String fileName;
+    private FileManager fileManager;
 
-    public Menu()
+    public Menu(String fileName)
     {
         scanner = new Scanner(System.in);
         configuration = new Configuration();
+        this.fileName = fileName;
+        fileManager = new FileManager();
     }
 
     public void start(WBS wbs)
@@ -33,7 +38,8 @@ public class Menu
             switch(choice)
             {
                 case "1":
-                    System.out.println("Not done yet");
+                    EstimateManager estimateManager = new EstimateManager();
+                    estimateManager.estimate(wbs, configuration, scanner);
                     break;
 
                 case "2":
@@ -41,6 +47,14 @@ public class Menu
                     break;
 
                 case "3":
+                    try
+                    {
+                        fileManager.save(fileName, wbs);
+                    }
+                    catch(IOException e)
+                    {
+                        System.out.println("Cant save file");
+                    }
                     running = false;
                     break;
 

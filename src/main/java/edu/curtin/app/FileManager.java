@@ -1,6 +1,8 @@
 package edu.curtin.app;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -93,5 +95,49 @@ public class FileManager
             this.description = description;
             this.effort = effort;
         }
+    }
+
+    public void save(String fileName, WBS wbs) throws IOException
+    {
+        try(BufferedWriter writer = new BufferedWriter(new FileWriter(fileName)))
+        {
+            for(Task task : wbs.getRoots())
+            {
+                saveTask(writer, "", task);
+            }
+        }
+    }
+
+    private void saveTask(BufferedWriter writer, String parentId, Task task) throws IOException
+    {
+        writer.write(parentId);
+        writer.write(";");
+        writer.write(task.getId());
+        writer.write(";");
+        writer.write(task.getDescription());
+
+        if(task instanceof LeafTask)
+        {
+            LeafTask leaf = (LeafTask) task;
+            writer.write(";");
+
+            if(leaf.getEstimate() != null)
+            {
+                writer.write(Integer.toString(leaf.getEstimate()));
+            }
+        }
+
+        writer.newLine();
+
+        if(task instanceof GroupTask)
+        {
+            GroupTask group = (GroupTask) task;
+
+            for(Task child : group.getChildren())
+            {
+                saveTask(writer, task.getId(), child);
+            }
+        }
+
     }
 }

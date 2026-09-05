@@ -9,11 +9,11 @@ public class HighestStrategy implements EstimateStrategy
     {
         int highest = estimates.get(0);
 
-        for(int estimate : estimates)
+        for(int value : estimates)
         {
-            if(estimate > highest)
+            if(value > highest)
             {
-                highest = estimate;
+                highest = value;
             }
         }
         return highest;
