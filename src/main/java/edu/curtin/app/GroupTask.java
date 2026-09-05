@@ -35,4 +35,9 @@ public class GroupTask extends Task
 
         return total;
     }
+
+    public boolean hasChildren()
+    {
+        return !children.isEmpty();
+    }
 }

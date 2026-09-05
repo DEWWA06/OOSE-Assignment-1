@@ -40,6 +40,11 @@ public class WBS
     {
         return tasks.containsKey(id);
     }
+
+    public Map<String, Task> getTasks()
+    {
+        return tasks;
+    }
 }
 
 
