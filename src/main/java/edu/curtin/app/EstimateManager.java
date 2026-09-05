@@ -3,9 +3,12 @@ package edu.curtin.app;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+import java.util.logging.Logger;
 
 public class EstimateManager 
 {
+    private static final Logger Log = Logger.getLogger(EstimateManager.class.getName());
+
     public void estimate(WBS wbs, Configuration configuration, Scanner scanner)
     {
         System.out.print("Task ID: ");
@@ -38,11 +41,6 @@ public class EstimateManager
         {
             LeafTask leaf = (LeafTask) task;
 
-            if(leaf.getEstimate() != null)
-            {
-                return;
-            }
-
             System.out.println();
             System.out.println("Estimating: " + leaf.getDescription());
 
@@ -53,6 +51,16 @@ public class EstimateManager
                 System.out.print("Estimate " + i + ": ");
                 estimates.add(Integer.parseInt(scanner.nextLine()));
             }
+
+            System.out.println();
+            System.out.println("Entered estimates");
+
+            for(Integer estimate : estimates)
+            {
+                System.out.println(estimate);
+            }
+
+            System.out.print("\n");
 
             int answer;
 
@@ -85,6 +93,7 @@ public class EstimateManager
             }
 
             leaf.setEstimate(answer);
+            Log.info(() -> "Task " + leaf.getId() + " esitmated as " + answer);
             System.out.println("Final estimate = " + answer);
         }
     }

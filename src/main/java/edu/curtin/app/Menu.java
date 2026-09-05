@@ -2,6 +2,7 @@ package edu.curtin.app;
 
 import java.util.Scanner;
 import java.io.IOException;
+import java.util.logging.Logger;
 
 public class Menu 
 {
@@ -9,6 +10,7 @@ public class Menu
     private Configuration configuration;
     private String fileName;
     private FileManager fileManager;
+    private static final Logger Log = Logger.getLogger(Menu.class.getName());
 
     public Menu(String fileName)
     {
@@ -69,8 +71,31 @@ public class Menu
 
     private void configure()
     {
-        System.out.print("Number of estimators: ");
-        configuration.setEstimators(Integer.parseInt(scanner.nextLine()));
+        boolean valid = false;
+
+        while(!valid)
+        {
+            System.out.print("Number of estimators: ");
+
+            try
+            {
+                int number = Integer.parseInt(scanner.nextLine());
+
+                if(number<=0)
+                {
+                    System.out.println("Enter a postive number");
+                }
+                else
+                {
+                    configuration.setEstimators(number);
+                    valid = true;
+                }
+            }
+            catch(NumberFormatException e)
+            {
+                System.out.println("Please enter a integer");
+            }
+        }
 
         System.out.println("1. Highest");
         System.out.println("2. Median");
@@ -97,6 +122,7 @@ public class Menu
                 System.out.println("Invalid choice");
                 break;
         }
+        Log.info(() -> "Configuration updated: estimators = " + configuration.getEstimators() + ", Strategy = " + configuration.getStrategy().getClass().getSimpleName());
         System.out.println("Configuration is updated");
     }
 

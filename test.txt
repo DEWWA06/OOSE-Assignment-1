@@ -2,4 +2,4 @@
 A;B;Planning;10
 A;C;Coding
 C;D;Frontend;20
-C;E;Backend;40
+C;E;Backend;30

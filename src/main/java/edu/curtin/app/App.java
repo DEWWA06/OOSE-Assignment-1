@@ -1,6 +1,8 @@
 package edu.curtin.app;
 
 import java.io.IOException;
+import java.util.logging.LogManager;
+import java.io.FileInputStream;
 
 /**
  * Entry point into the application. To change the package, and/or the name of this class, make
@@ -16,6 +18,15 @@ public class App
             return;
         }
 
+        try
+        {
+            LogManager.getLogManager().readConfiguration(new FileInputStream("Logging.properties"));
+        }
+        catch(IOException e)
+        {
+            System.out.println("Couldnt load logging configuration");
+        }
+
         FileManager fileManager = new FileManager();
 
         try
@@ -27,6 +38,10 @@ public class App
         catch(IOException e)
         {
             System.out.println("There was an error loading the file");
+        }
+        catch(InvalidWBSFileException e)
+        {
+            System.out.println("There is an error when loading the file");
         }
     }
 }

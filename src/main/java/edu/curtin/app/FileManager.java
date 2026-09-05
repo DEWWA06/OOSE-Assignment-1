@@ -7,11 +7,15 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
 
 public class FileManager 
 {
-    public WBS load(String fileName) throws IOException
+    private static final Logger Log = Logger.getLogger(FileManager.class.getName());
+
+    public WBS load(String fileName) throws IOException, InvalidWBSFileException
     {
+        Log.info(() -> "Loading WBS from: " + fileName);
         WBS wbs = new WBS();
         List<TaskData> data = new ArrayList<>();
 
@@ -22,6 +26,11 @@ public class FileManager
             while((line = reader.readLine()) != null)
             {
                 String[] parts = line.split(";");
+
+                if(parts.length != 3 && parts.length != 4)
+                {
+                    throw new InvalidWBSFileException("Theres a invalid line in WBS file: " + line);
+                }
 
                 for(int i = 0; i<parts.length; i++)
                 {
@@ -78,6 +87,8 @@ public class FileManager
                 }
             }
         }
+
+        Log.info("Loaded WBS succesfully");
         return wbs;
     }  
     
@@ -99,6 +110,8 @@ public class FileManager
 
     public void save(String fileName, WBS wbs) throws IOException
     {
+        Log.info(() -> "Saving WBS to: " + fileName);
+
         try(BufferedWriter writer = new BufferedWriter(new FileWriter(fileName)))
         {
             for(Task task : wbs.getRoots())
@@ -106,6 +119,7 @@ public class FileManager
                 saveTask(writer, "", task);
             }
         }
+        Log.info("Saved WBS succesfully");
     }
 
     private void saveTask(BufferedWriter writer, String parentId, Task task) throws IOException
