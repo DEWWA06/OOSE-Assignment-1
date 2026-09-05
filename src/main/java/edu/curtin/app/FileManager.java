@@ -6,8 +6,9 @@ import java.io.IOException;
 
 public class FileManager 
 {
-    public void load(String fileName) throws IOException
+    public WBS load(String fileName) throws IOException
     {
+        WBS wbs = new WBS();
         try(BufferedReader reader = new BufferedReader(new FileReader(fileName)))
         {
             String line;
@@ -22,6 +23,6 @@ public class FileManager
                 }
             }
         }
-    }
-    
+        return wbs;
+    }    
 }
