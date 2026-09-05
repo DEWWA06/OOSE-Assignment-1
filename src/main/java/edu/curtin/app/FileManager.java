@@ -36,9 +36,19 @@ public class FileManager
             }
         }
 
+        List<String> parentIds = new ArrayList<>();
+
         for(TaskData task : data)
         {
-            if(task.effort == null)
+            if(!task.parentId.isEmpty())
+            {
+                parentIds.add(task.parentId);
+            }
+        }
+        
+        for(TaskData task : data)
+        {
+            if(parentIds.contains(task.id))
             {
                 wbs.addTask(new GroupTask(task.id, task.description));
             }

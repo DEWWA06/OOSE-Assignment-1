@@ -61,6 +61,56 @@ public class WBS
     {
         return tasks.size();
     }
+
+    public int getTotalEffort()
+    {
+        int total =0;
+
+        for(Task task : roots)
+        {
+            total += task.getEffort();
+        }
+
+        return total;
+    }
+
+    public int getUnknownTasks()
+    {
+        int total = 0;
+
+        for(Task task : roots)
+        {
+            total += countUnknown(task);
+        }
+
+        return total;
+    }
+
+    private int countUnknown(Task task)
+    {
+        if(task instanceof LeafTask)
+        {
+            LeafTask leaf = (LeafTask) task;
+
+            if(leaf.getEstimate() == null)
+            {
+                return 1;
+            }
+
+            return 0;
+        }
+
+        int total = 0;
+
+        GroupTask group = (GroupTask) task;
+
+        for(Task child : group.getChildren())
+        {
+            total += countUnknown(child);
+        }
+
+        return total;
+    }
 }
 
 

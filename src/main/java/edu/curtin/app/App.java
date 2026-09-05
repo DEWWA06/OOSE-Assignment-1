@@ -21,8 +21,8 @@ public class App
         try
         {
             WBS wbs = fileManager.load(args[0]);
-            System.out.println("File is loaded");
-            wbs.display();
+            Display display = new Display();
+            display.show(wbs);
         }
         catch(IOException e)
         {
