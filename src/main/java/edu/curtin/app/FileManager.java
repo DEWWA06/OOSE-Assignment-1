@@ -3,12 +3,16 @@ package edu.curtin.app;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class FileManager 
 {
     public WBS load(String fileName) throws IOException
     {
         WBS wbs = new WBS();
+        List<TaskData> data = new ArrayList<>();
+
         try(BufferedReader reader = new BufferedReader(new FileReader(fileName)))
         {
             String line;
@@ -21,8 +25,63 @@ public class FileManager
                 {
                     parts[i] = parts[i].trim();
                 }
+
+                Integer effort = null;
+                if(parts.length == 4 && !parts[3].isEmpty())
+                {
+                    effort = Integer.parseInt(parts[3]);
+                }
+
+                data.add(new TaskData(parts[0], parts[1], parts[2], effort));
+            }
+        }
+
+        for(TaskData task : data)
+        {
+            if(task.effort == null)
+            {
+                wbs.addTask(new GroupTask(task.id, task.description));
+            }
+            else
+            {
+                wbs.addTask(new LeafTask(task.id, task.description, task.effort));
+            }
+        }
+
+        for(TaskData task : data)
+        {
+            Task current = wbs.getTask(task.id);
+
+            if(task.parentId.isEmpty())
+            {
+                wbs.addRoot(current);
+            }
+            else
+            {
+                Task parent = wbs.getTask(task.parentId);
+
+                if(parent instanceof GroupTask)
+                {
+                    ((GroupTask) parent).addTask(current);
+                }
             }
         }
         return wbs;
-    }    
+    }  
+    
+    private static class TaskData
+    {
+        private String parentId;
+        private String id;
+        private String description;
+        private Integer effort;
+
+        public TaskData(String parentId, String id, String description, Integer effort)
+        {
+            this.parentId = parentId;
+            this.id = id;
+            this.description = description;
+            this.effort = effort;
+        }
+    }
 }
