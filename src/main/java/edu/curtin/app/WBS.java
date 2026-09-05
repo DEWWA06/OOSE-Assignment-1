@@ -45,6 +45,11 @@ public class WBS
     {
         return tasks;
     }
+
+    public void display()
+    {
+        System.out.println("Work Breakdown Structure");
+    }
 }
 
 
