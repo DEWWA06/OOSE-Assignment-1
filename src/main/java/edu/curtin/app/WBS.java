@@ -35,6 +35,11 @@ public class WBS
     {
         return roots;
     }
+
+    public boolean hasTask(String id)
+    {
+        return tasks.containsKey(id);
+    }
 }
 
 
