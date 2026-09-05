@@ -5,10 +5,12 @@ import java.util.Scanner;
 public class Menu 
 {
     private Scanner scanner;
+    private Configuration configuration;
 
     public Menu()
     {
         scanner = new Scanner(System.in);
+        configuration = new Configuration();
     }
 
     public void start(WBS wbs)
@@ -18,7 +20,7 @@ public class Menu
 
         while(running)
         {
-            display.show(wbs);
+            display.show(wbs, configuration);
 
             System.out.println();
             System.out.println("1. Estimate effort");
@@ -35,7 +37,7 @@ public class Menu
                     break;
 
                 case "2":
-                    System.out.println("Not done yet");
+                    configure();
                     break;
 
                 case "3":
@@ -49,6 +51,43 @@ public class Menu
 
             System.out.println();
         }
+    } 
+
+    private void configure()
+    {
+        System.out.print("Number of estimators: ");
+        configuration.setEstimators(Integer.parseInt(scanner.nextLine()));
+
+        System.out.println("1. Highest");
+        System.out.println("2. Median");
+        System.out.println("3. Discuss");
+        System.out.println("Choice: ");
+
+        String choice = scanner.nextLine();
+
+        switch(choice)
+        {
+            case "1":
+                configuration.setStrategy(new HighestStrategy());
+                break;
+
+            case "2":
+                configuration.setStrategy(new MedianStrategy());
+                break;
+
+            case "3":
+                configuration.setStrategy(new DiscussStrategy());
+                break;
+
+            default:
+                System.out.println("Invalid choice");
+                break;
+        }
+        System.out.println("Configuration is updated");
     }
-    
+
+    public Configuration getConfiguration()
+    {
+        return configuration;
+    }
 }

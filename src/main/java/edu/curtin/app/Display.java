@@ -2,7 +2,7 @@ package edu.curtin.app;
 
 public class Display 
 {
-    public void show(WBS wbs)
+    public void show(WBS wbs, Configuration configuration)
     {
         for(Task task : wbs.getRoots())
         {
@@ -12,6 +12,10 @@ public class Display
         System.out.println();
         System.out.println("Total known effort = " + wbs.getTotalEffort());
         System.out.println("UnkNown tasks = " + wbs.getUnknownTasks());
+
+        System.out.println();
+        System.out.println("Estimators = " + configuration.getEstimators());
+        System.out.println("Strategy = " + configuration.getStrategyName());
     }
 
     private void print(Task task,int level)
