@@ -10,7 +10,7 @@ public class Display
         }
 
         System.out.println();
-        System.out.println("Total effort = " + wbs.getTotalEffort());
+        System.out.println("Total known effort = " + wbs.getTotalEffort());
         System.out.println("UnkNown tasks = " + wbs.getUnknownTasks());
     }
 

@@ -21,8 +21,8 @@ public class App
         try
         {
             WBS wbs = fileManager.load(args[0]);
-            Display display = new Display();
-            display.show(wbs);
+            Menu menu = new Menu();
+            menu.start(wbs);
         }
         catch(IOException e)
         {
