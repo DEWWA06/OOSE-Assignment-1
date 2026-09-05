@@ -50,6 +50,17 @@ public class WBS
     {
         System.out.println("Work Breakdown Structure");
     }
+
+    public void clear()
+    {
+        tasks.clear();
+        roots.clear();
+    }
+
+    public int size()
+    {
+        return tasks.size();
+    }
 }
 
 
